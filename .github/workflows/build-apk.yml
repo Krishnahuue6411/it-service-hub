@@ -36,12 +36,12 @@ jobs:
           mkdir -p out
           if [ ! -f out/index.html ]; then echo "<html><body><h1>IT Service Hub</h1></body></html>" > out/index.html; fi
 
-      # Step 5: Setup Java Development Kit (JDK 17)
+      # Step 5: Setup Java Development Kit (JDK 21)
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       # Step 6: Setup Android SDK
       - name: Setup Android SDK
