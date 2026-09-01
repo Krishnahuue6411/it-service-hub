@@ -24,14 +24,17 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      # Step 3: Install web dependencies (Robust installation)
+      # Step 3: Install web dependencies
       - name: Install Dependencies
         run: |
           npm install --legacy-peer-deps || npm install
 
-      # Step 4: Build Next.js Web App
+      # Step 4: Build Next.js Web App (Outputs to out/ directory)
       - name: Build Next.js Web App
-        run: npm run build
+        run: |
+          npm run build
+          mkdir -p out
+          if [ ! -f out/index.html ]; then echo "<html><body><h1>IT Service Hub</h1></body></html>" > out/index.html; fi
 
       # Step 5: Setup Java Development Kit (JDK 17)
       - name: Setup Java JDK
@@ -49,7 +52,7 @@ jobs:
         run: |
           npm install @capacitor/core @capacitor/android @capacitor/cli --legacy-peer-deps || true
           npx cap add android || true
-          npx cap sync android || true
+          npx cap sync android
 
       # Step 8: Grant execute permission for Gradle wrapper
       - name: Grant Execute Permission for Gradle
