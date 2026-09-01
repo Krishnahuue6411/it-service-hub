@@ -24,11 +24,12 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      # Step 3: Install web dependencies
+      # Step 3: Install web dependencies (Robust installation)
       - name: Install Dependencies
-        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+        run: |
+          npm install --legacy-peer-deps || npm install
 
-      # Step 4: Build Next.js Static Export
+      # Step 4: Build Next.js Web App
       - name: Build Next.js Web App
         run: npm run build
 
@@ -43,9 +44,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # Step 7: Sync Capacitor Android Assets
+      # Step 7: Install & Sync Capacitor Android Assets
       - name: Sync Capacitor Android
         run: |
+          npm install @capacitor/core @capacitor/android @capacitor/cli --legacy-peer-deps || true
+          npx cap add android || true
           npx cap sync android || true
 
       # Step 8: Grant execute permission for Gradle wrapper
